@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+
+$: << File.join(File.dirname(__FILE__), *%w[.. lib])
+
+require 'optparse'
+require 'phonegap'
+
+options = {
+  platforms: [:ios]
+}
+
+opts = OptionParser.new do |opts|
+  opts.summary_width = 25
+  opts.banner = "PhoneGap (#{PhoneGap::VERSION})\n\n",
+              "Usage: phonegap [--ios] [--android] PATH\n",
+              "       phonegap --help\n",
+              "       phonegap --version\n"
+
+  opts.separator ""
+  opts.separator ""; opts.separator "Configuration:"
+  
+  opts.on("--ios", "Compile iOS applications") do |v|
+    options[:platforms] |= [:ios]
+  end
+
+  opts.on("--android", "Compile Android applications") do |v|
+    options[:platforms] |= [:android]
+  end
+  
+  opts.separator ""; opts.separator "Miscellaneous:"
+  
+  opts.on_tail("-?", "--help", "Display this usage information") do
+    puts "#{opts}\n"
+    exit
+  end
+  
+  opts.on_tail("-v", "--version", "Display version") do |v|
+    puts "PhoneGap #{PhoneGap::VERSION}"
+    exit
+  end
+  
+  opts.parse!
+end
+
+path = opts[0]
+
+PhoneGap.compile(path, options)
