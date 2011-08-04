@@ -9,11 +9,12 @@ options = {
   platforms: [],
   config: "debug",
   target: "emulator",
-  name: "app"
+  name: "app",
+  build: true
 }
 
 opts = OptionParser.new do |opts|
-  opts.summary_width = 28
+  opts.summary_width = 25
   opts.banner = "Usage: phonegap [OPTIONS] PATH"
 
   opts.separator ""
@@ -26,17 +27,24 @@ opts = OptionParser.new do |opts|
   opts.on("--android", "Compile Android applications") do |v|
     options[:platforms] << :android
   end
+
+  opts.separator ""  
+  opts.separator "Optional:"
   
-  opts.on("--target [TARGET]", String, "Either 'device' or 'emulator' (optional)") do |v|
+  opts.on("--target [TARGET]", String, "Either 'device' or 'emulator'") do |v|
     options[:target] = v
   end
   
-  opts.on("--config [TYPE]", String, "Either 'debug' or 'release' (optional)") do |v|
+  opts.on("--config [TYPE]", String, "Either 'debug' or 'release'") do |v|
     options[:config] = v
   end
   
-  opts.on("--name [NAME]", String, "Application name (optional)") do |v|
+  opts.on("--name [NAME]", String, "Application name") do |v|
     options[:name] = v
+  end
+  
+  opts.on("--[no-]build", "Build application (default is true)") do |v|
+    options[:build] = v
   end
   
   opts.separator ""; opts.separator "Miscellaneous:"

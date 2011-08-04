@@ -16,6 +16,8 @@ module PhoneGap
         setup_template
         setup_application        
         setup_platform
+        
+        return if options[:build] == false
 
         build_script = platform_path.join("build.sh")
         system(
