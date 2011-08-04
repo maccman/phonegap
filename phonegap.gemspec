@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 require "phonegap/version"
 
 Gem::Specification.new do |s|
-  s.name        = "phonegap"
+  s.name        = "phonegap-build"
   s.version     = PhoneGap::VERSION
   s.authors     = ["Alex MacCaw"]
   s.email       = ["maccman@gmail.com"]
