@@ -20,7 +20,7 @@ module PhoneGap
         build_script = platform_path.join("build.sh")
         system(
           build_script.to_s, 
-          options[:configuration], 
+          options[:config], 
           options[:target], 
           build_path.to_s
         )

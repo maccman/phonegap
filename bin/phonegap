@@ -7,7 +7,7 @@ require 'phonegap'
 
 options = {
   platforms: [],
-  configuration: "debug",
+  config: "debug",
   target: "emulator",
   name: "app"
 }
@@ -31,8 +31,8 @@ opts = OptionParser.new do |opts|
     options[:target] = v
   end
   
-  opts.on("--configuration [TYPE]", String, "Either 'debug' or 'release' (optional)") do |v|
-    options[:configuration] = v
+  opts.on("--config [TYPE]", String, "Either 'debug' or 'release' (optional)") do |v|
+    options[:config] = v
   end
   
   opts.on("--name [NAME]", String, "Application name (optional)") do |v|
