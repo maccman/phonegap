@@ -1,34 +1,54 @@
 require "phonegap/version"
 require "fileutils"
+require "pathname"
 
-module PhoneGap
-  extend self
-  
-  def compile(path, options = {})
-    platforms = options[:platforms] || []
-    compile_ios(path) if platforms.include?(:ios)
+class PhoneGap
+  class << self  
+    def build(path, options = {})
+      platforms = options[:platforms] || [:ios]
+      platforms.each {|plat| self.new(path, plat).build }
+    end
   end
   
-  def compile_ios(path)
-    source = setup(path, :ios)
-    puts %x{ xcodebuild -target #{source} -buildstyle Deployment build }
+  attr_reader :path, :platform, :build
+  
+  def initialize(path, platform)
+    @path     = Pathname.new(path)
+    @platform = platform
+    @build    = path.join("build", platform)
+    @web      = path
+    @web      = path.join("public") if path.join("public").exist?
+    @web      = path.join("www") if path.join("www").exist?
+  end
+  
+  def build
+    setup
+    send("build_#{platform}")
   end
   
   protected
-    def setup(path, platform)
-      tmp = File.join(path, "build")
-      FileUtils.rm_rf(tmp)
-      FileUtils.mkdir_p(tmp)
-
-      FileUtils.cp_r(templates(platform), tmp)
-      
-      web = path
-      web = File.join(path, "public") if File.exists?(path, "public")
-      web = File.join(path, "www") if File.exists?(path, "www")
-      
-      FileUtils.cp_r(web, File.join(tmp, "www"))
-      FileUtils.cp_r(File.join(path, "platforms", platform), tmp)
-      tmp
+    def setup
+      setup_build
+      setup_template
+      setup_application
+    end
+    
+    def setup_build
+      FileUtils.rm_rf(build)
+      FileUtils.mkdir_p(build)
+    end
+    
+    def setup_template
+      FileUtils.cp_r(templates(platform), build)
+    end
+    
+    def setup_application
+      FileUtils.cp_r(web, build.join("www"))
+      FileUtils.cp_r(path.join("platforms", platform), build)      
+    end
+    
+    def build_ios
+      puts %x{ xcodebuild -target #{path} -buildstyle Deployment build }
     end
   
     def templates(*paths)

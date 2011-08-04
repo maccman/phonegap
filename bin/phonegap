@@ -42,6 +42,4 @@ opts = OptionParser.new do |opts|
   opts.parse!
 end
 
-path = opts[0]
-
-PhoneGap.compile(path, options)
+PhoneGap.build(opts[0], options)
