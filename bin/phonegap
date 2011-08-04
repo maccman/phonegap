@@ -10,16 +10,13 @@ options = {
 }
 
 opts = OptionParser.new do |opts|
-  opts.summary_width = 25
-  opts.banner = "PhoneGap (#{PhoneGap::VERSION})\n\n",
-              "Usage: phonegap [--ios] [--android] PATH\n",
-              "       phonegap --help\n",
-              "       phonegap --version\n"
+  opts.summary_width = 15
+  opts.banner = "Usage: phonegap [OPTIONS] PATH"
 
   opts.separator ""
-  opts.separator ""; opts.separator "Configuration:"
+  opts.separator "Configuration:"
   
-  opts.on("--ios", "Compile iOS applications") do |v|
+  opts.on("--ios", "Compile iOS applications (default)") do |v|
     options[:platforms] |= [:ios]
   end
 
@@ -42,4 +39,11 @@ opts = OptionParser.new do |opts|
   opts.parse!
 end
 
-PhoneGap.build(ARGV[0], options)
+path = ARGV[0]
+
+unless path
+  puts "#{opts}\n"
+  exit
+end
+
+PhoneGap.build(path, options)
