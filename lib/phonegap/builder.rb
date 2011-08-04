@@ -29,16 +29,10 @@ module PhoneGap
     end
 
     def build
-      setup
+      raise "Implement"
     end
 
     protected
-      def setup
-        setup_build
-        setup_template
-        setup_application
-      end
-
       def setup_build
         FileUtils.rm_rf(build_path)
         FileUtils.mkdir_p(build_path)
@@ -54,7 +48,9 @@ module PhoneGap
       end
 
       def setup_application
-        FileUtils.cp_r(web_path, build_path.join("www"))
+        www_path = build_path.join("www")
+        www_path.rmtree
+        FileUtils.cp_r(web_path, www_path)
       end
 
       def template_path

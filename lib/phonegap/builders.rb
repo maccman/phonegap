@@ -17,3 +17,4 @@ module PhoneGap
 end
 
 require "phonegap/builders/ios"
+require "phonegap/builders/android"

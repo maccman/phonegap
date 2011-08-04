@@ -4,15 +4,17 @@ module PhoneGap
       register :ios
       
       def build
-        setup
+        setup_build
 
-        create_script = platform_path.join("create_project.sh").to_s
-        system(create_script, "app", build_path.to_s)
-        
+        create_script = platform_path.join("create_project.sh")
+        system(create_script.to_s, "app", build_path.to_s)
+
+        setup_template
+        setup_application        
         setup_platform
 
-        build_script = platform_path.join("build.sh").to_s
-        system(build_script, "debug", "emulator", build_path.to_s)
+        build_script = platform_path.join("build.sh")
+        system(build_script.to_s, "debug", "emulator", build_path.to_s)
       end
     end
   end
