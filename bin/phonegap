@@ -42,4 +42,4 @@ opts = OptionParser.new do |opts|
   opts.parse!
 end
 
-PhoneGap.build(opts[0], options)
+PhoneGap.build(ARGV[0], options)
