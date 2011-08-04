@@ -6,11 +6,14 @@ require 'optparse'
 require 'phonegap'
 
 options = {
-  platforms: []
+  platforms: [],
+  configuration: "debug",
+  target: "emulator",
+  name: "app"
 }
 
 opts = OptionParser.new do |opts|
-  opts.summary_width = 15
+  opts.summary_width = 28
   opts.banner = "Usage: phonegap [OPTIONS] PATH"
 
   opts.separator ""
@@ -22,6 +25,18 @@ opts = OptionParser.new do |opts|
 
   opts.on("--android", "Compile Android applications") do |v|
     options[:platforms] << :android
+  end
+  
+  opts.on("--target [TARGET]", String, "Either 'device' or 'emulator' (optional)") do |v|
+    options[:target] = v
+  end
+  
+  opts.on("--configuration [TYPE]", String, "Either 'debug' or 'release' (optional)") do |v|
+    options[:configuration] = v
+  end
+  
+  opts.on("--name [NAME]", String, "Application name (optional)") do |v|
+    options[:name] = v
   end
   
   opts.separator ""; opts.separator "Miscellaneous:"
@@ -41,7 +56,7 @@ end
 
 path = ARGV[0]
 
-unless path || platforms.empty?
+if path.nil? or options[:platforms].empty?
   puts "#{opts}\n"
   exit
 end

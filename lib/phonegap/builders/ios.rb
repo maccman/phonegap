@@ -7,14 +7,23 @@ module PhoneGap
         setup_build
 
         create_script = platform_path.join("create_project.sh")
-        system(create_script.to_s, "app", build_path.to_s)
+        system(
+          create_script.to_s, 
+          options[:name], 
+          build_path.to_s
+        )
 
         setup_template
         setup_application        
         setup_platform
 
         build_script = platform_path.join("build.sh")
-        system(build_script.to_s, "debug", "emulator", build_path.to_s)
+        system(
+          build_script.to_s, 
+          options[:configuration], 
+          options[:target], 
+          build_path.to_s
+        )
       end
     end
   end

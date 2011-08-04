@@ -13,14 +13,15 @@ module PhoneGap
         @platform
       end
       
-      def build(path)
-        self.new(path).build
+      def build(path, options)
+        self.new(path, options).build
       end
     end
 
-    attr_reader :path, :build_path, :web_path
+    attr_reader :options, :path, :build_path, :web_path
 
-    def initialize(path)
+    def initialize(path, options)
+      @options    = options
       @path       = Pathname.new(path)      
       raise "Path doesn't exist" unless @path.exist?
 
