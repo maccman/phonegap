@@ -6,7 +6,7 @@ require 'optparse'
 require 'phonegap'
 
 options = {
-  platforms: [:ios]
+  platforms: []
 }
 
 opts = OptionParser.new do |opts|
@@ -16,12 +16,12 @@ opts = OptionParser.new do |opts|
   opts.separator ""
   opts.separator "Configuration:"
   
-  opts.on("--ios", "Compile iOS applications (default)") do |v|
-    options[:platforms] |= [:ios]
+  opts.on("--ios", "Compile iOS applications") do |v|
+    options[:platforms] << :ios
   end
 
   opts.on("--android", "Compile Android applications") do |v|
-    options[:platforms] |= [:android]
+    options[:platforms] << :android
   end
   
   opts.separator ""; opts.separator "Miscellaneous:"
@@ -41,7 +41,7 @@ end
 
 path = ARGV[0]
 
-unless path
+unless path || platforms.empty?
   puts "#{opts}\n"
   exit
 end

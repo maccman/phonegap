@@ -21,11 +21,18 @@ module PhoneGap
     attr_reader :path, :build_path, :web_path
 
     def initialize(path)
-      @path       = Pathname.new(path)
-      @build_path = @path.join("build", platform)
-      @web_path   = @path
+      @path       = Pathname.new(path)      
+      raise "Path doesn't exist" unless @path.exist?
+
       @web_path   = @path.join("public") if @path.join("public").exist?
       @web_path   = @path.join("www") if @path.join("www").exist?
+      
+      unless @web_path
+        @web_path = @path.dup
+        @path     = @path.parent
+      end
+      
+      @build_path = @path.join("build", platform)      
     end
 
     def build
