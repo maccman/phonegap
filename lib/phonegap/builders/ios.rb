@@ -14,11 +14,12 @@ module PhoneGap
         )
       
         setup_template
-        setup_application
-        setup_platform
       end
       
       def build
+        setup_platform
+        setup_application
+        
         build_script = platform_path.join("build.sh")
         system(
           build_script.to_s, 
