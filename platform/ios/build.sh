@@ -12,7 +12,7 @@
 # 
 # run 'xcodebuild -showsdks' to show the valid sdks on the system
 
-current_sdk_version=3.0
+current_sdk_version=4.3
 xcodebuild="/usr/bin/xcodebuild"
 
 # check whether the xcodebuild command exists

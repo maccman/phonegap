@@ -6,16 +6,15 @@ require 'optparse'
 require 'phonegap'
 
 options = {
-  platforms: [],
+  platforms: [:ios],
   config: "debug",
   target: "emulator",
-  name: "app",
-  build: true
+  name: "PhoneGap"
 }
 
 opts = OptionParser.new do |opts|
   opts.summary_width = 25
-  opts.banner = "Usage: phonegap [OPTIONS] PATH"
+  opts.banner = "Usage: phonegap [OPTIONS] [build/new] PATH"
 
   opts.separator ""
   opts.separator "Configuration:"
@@ -43,10 +42,6 @@ opts = OptionParser.new do |opts|
     options[:name] = v
   end
   
-  opts.on("--[no-]build", "Build application (default is true)") do |v|
-    options[:build] = v
-  end
-  
   opts.separator ""; opts.separator "Miscellaneous:"
   
   opts.on_tail("-?", "--help", "Display this usage information") do
@@ -62,11 +57,18 @@ opts = OptionParser.new do |opts|
   opts.parse!
 end
 
-path = ARGV[0]
+type = ARGV[0]
+path = ARGV[1] || Dir.pwd
 
-if path.nil? or options[:platforms].empty?
+case type
+when "build" 
+  options[:build] = true
+when "generate", "new"
+  options[:generate] = true  
+else
+  p type
   puts "#{opts}\n"
   exit
 end
 
-PhoneGap.build(path, options)
+PhoneGap.process(path, options)

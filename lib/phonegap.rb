@@ -4,10 +4,10 @@ module PhoneGap
   autoload :Builder,  "phonegap/builder"
   autoload :Builders, "phonegap/builders"
   
-  def build(path, options = {})
+  def process(path, options = {})
     platforms = options[:platforms] || []
     platforms.each do |platform| 
-      Builders.for_platform(platform).build(path, options)
+      Builders.for_platform(platform).process(path, options)
     end
   end
   

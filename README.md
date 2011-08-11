@@ -13,7 +13,7 @@ Android is currently not supported.
 
     $ phonegap -h
       
-      Usage: phonegap [OPTIONS] PATH
+      Usage: phonegap [OPTIONS] [build/new] PATH
 
       Configuration:
               --ios                 Compile iOS applications
@@ -23,14 +23,15 @@ Android is currently not supported.
               --target [TARGET]     Either 'device' or 'emulator'
               --config [TYPE]       Either 'debug' or 'release'
               --name [NAME]         Application name
-              --[no-]build          Build application (default is true)
 
       Miscellaneous:
           -?, --help                Display this usage information
           -v, --version             Display version
       
-    $ phonegap --ios ./public
-    $ cd ./build/ios
+    $ phonegap --ios new ./public
+    $ cd ./public
+    $ ls build/ios
+    $ phonegap build
 
 If a dir called `public` or `www` exists under the specified directory, then phonegap-build will use that instead. The application will be created in a directory called `build`.
 

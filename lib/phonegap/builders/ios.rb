@@ -3,22 +3,22 @@ module PhoneGap
     class IOS < Builder
       register :ios
       
-      def build
+      def generate
         setup_build
-
+        
         create_script = platform_path.join("create_project.sh")
         system(
           create_script.to_s, 
           options[:name], 
           build_path.to_s
         )
-
+      
         setup_template
-        setup_application        
+        setup_application
         setup_platform
-        
-        return if options[:build] == false
-
+      end
+      
+      def build
         build_script = platform_path.join("build.sh")
         system(
           build_script.to_s, 

@@ -13,8 +13,8 @@ module PhoneGap
         @platform
       end
       
-      def build(path, options)
-        self.new(path, options).build
+      def process(path, options)
+        self.new(path, options).process
       end
     end
 
@@ -22,18 +22,27 @@ module PhoneGap
 
     def initialize(path, options)
       @options    = options
-      @path       = Pathname.new(path)      
-      raise "Path doesn't exist" unless @path.exist?
-
+      @path       = Pathname.new(path)
+      
       @web_path   = @path.join("public") if @path.join("public").exist?
       @web_path   = @path.join("www") if @path.join("www").exist?
-      
-      unless @web_path
+    
+      if !@web_path && @path.exist?
         @web_path = @path.dup
         @path     = @path.parent
       end
       
-      @build_path = @path.join("build", platform)      
+      @build_path = @path.join("build", platform)
+      @build_path.mkpath
+    end
+    
+    def process
+      generate if options[:generate]
+      build if options[:build]
+    end
+    
+    def generate
+      raise "Implement"
     end
 
     def build
@@ -56,6 +65,7 @@ module PhoneGap
       end
 
       def setup_application
+        return unless web_path.exist?
         www_path = build_path.join("www")
         www_path.rmtree
         FileUtils.cp_r(web_path, www_path)
